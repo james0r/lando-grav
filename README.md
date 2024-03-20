@@ -13,7 +13,7 @@ An example of how GravCMS can be set up locally with Lando.dev
 1. Clone the repository: `git clone https://github.com/james0r/lando-grav.git`
 2. Navigate to the project directory: `cd lando-grav`
 3. Start the Lando app: `lando start` and wait for the endpoint monitor to timeout.
-4. Run the custom Lando tooling command to install Grav: `lando install-grav`
+4. Run the custom Lando tooling command to install Grav, Grav Admin, and Grav Devtools: `lando install-grav`
 5. Rebuild your Lando app to get your green URLs. `lando rebuild -y`
 
 ## Usage
