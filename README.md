@@ -10,14 +10,25 @@ An example of how GravCMS can be set up locally with Lando.dev
 - [License](#license)
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the project directory: `cd your-repo`
-3. Install the dependencies: `npm install`
+1. Clone the repository: `git clone https://github.com/james0r/lando-grav.git`
+2. Navigate to the project directory: `cd lando-grav`
+3. Start the Lando app: `lando start` and wait for the endpoint monitor to timeout.
+4. Run the custom Lando tooling command to install Grav: `lando install-grav`
+5. Rebuild your Lando app to get your green URLs. `lando rebuild -y`
 
 ## Usage
-1. Configure the project settings in `config.js` file.
-2. Start the project: `npm start`
-3. Open your browser and visit `http://localhost:3000` to view the application.
+
+### Install New Plugin
+From your project root:
+```
+lando new-plugin
+```
+
+### Install New Theme
+From your project root:
+```
+lando new-theme
+```
 
 ## Contributing
 Contributions are welcome! Please follow these steps:
@@ -29,6 +40,7 @@ Contributions are welcome! Please follow these steps:
 
 ## Known Issues
 1. Has unnecessary database service.
+2. Endpoints monitor needs to be bypassed on first run.
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
