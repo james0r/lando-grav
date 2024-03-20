@@ -1,0 +1,40 @@
+name: lando-grav
+recipe: lemp
+config:
+  php: '8.2'
+  composer_version: '2.2.12'
+  webroot: ./web
+  database: mysql:5.7
+  xdebug: false
+  config:
+    server: .lando/config/nginx.conf
+services:
+  node:
+    type: node:18
+    # build:
+    #   - npm install
+tooling:
+  php:
+    service: appserver
+  composer:
+    service: appserver
+  node:
+    service: node
+  install-grav:
+    service: appserver
+    cmd: 
+      - composer create-project getgrav/grav /app/web
+      - cd /app/web && bin/gpm selfupgrade -f
+      - cd /app/web && bin/gpm install -y admin
+      - cd /app/web && bin/gpm install -y devtools
+  new-plugin:
+    service: appserver
+    cmd:
+      - cd /app/web && bin/plugin devtools new-plugin
+  new-theme:
+    service: appserver
+    cmd: 
+      - cd /app/web && bin/plugin devtools new-theme
+proxy:
+  appserver_nginx:
+    - lando-grav.lndo.site
