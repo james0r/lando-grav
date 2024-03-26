@@ -6,7 +6,6 @@ password="Admin1234"
 
 # Set colors
 green=$(tput setaf 2)
-blue=$(tput setaf 4)
 reset=$(tput sgr0)
 
 # Start Lando
@@ -25,4 +24,4 @@ cd web && bin/plugin login new-user -u $username -p $password -e admin@lando-gra
 lando start
 
 echo -e "\n${green}Username: ${reset}$username"
-echo -e "${blue}Password: ${reset}$password"
+echo -e "${green}Password: ${reset}$password"
