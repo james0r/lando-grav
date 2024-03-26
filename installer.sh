@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Define username and password
+username="admin"
+password="Admin1234"
+
+# Set colors
+green=$(tput setaf 2)
+blue=$(tput setaf 4)
+reset=$(tput sgr0)
+
 # Start Lando
 lando start
 
@@ -12,6 +21,8 @@ lando install-gravified
 lando install-grav-theme-vite
 lando install-grav-theme-vite-npm-deps
 lando build
+cd web && bin/plugin login new-user -u $username -p $password -e admin@lando-grav-lndo.site -P a -N "Admin" -t "Admin" -n
 lando start
 
-# theme activation
+echo -e "\n${green}Username: ${reset}$username"
+echo -e "${blue}Password: ${reset}$password"
