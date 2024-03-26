@@ -1,6 +1,8 @@
 name: lando-grav
 recipe: lemp
 services:
+  appserver_nginx:
+    scanner: false
   appserver:
     type: php:8.2
     via: nginx
@@ -40,7 +42,9 @@ tooling:
     service: appserver
     cmd: 
       - cd /app/web/user/themes && git clone https://github.com/james0r/grav-theme-vite.git ./grav-theme-vite
-      - cd /app/web && bin/gpm theme install grav-theme-vite
+  install-grav-theme-vite-npm-deps:
+    service: node
+    cmd: cd /app/web/user/themes/grav-theme-vite && npm install
   new-plugin:
     service: appserver
     cmd:
