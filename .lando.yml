@@ -1,13 +1,14 @@
 name: lando-grav
-recipe: lemp
 services:
   appserver_nginx:
-    scanner: false
+    scanner:
+      retry: 10
   appserver:
     type: php:8.2
     via: nginx
     webroot: web
     xdebug: false
+    ssl: true
     composer_version: '2.7.1'
     config:
       server: .lando/config/nginx.conf
@@ -15,8 +16,14 @@ services:
     type: node:18
     ports:
       - 5173:5173
-    # build:
-    #   - "cd /app/web/user/themes/grav-theme-vite && npm install && npm run build"
+    build:
+      - /app/.lando/npm_build.sh
+proxy:
+  appserver_nginx:
+    - lando-grav.lndo.site
+events:
+  post-start:
+    - node: /app/.lando/npm_build.sh
 tooling:
   php:
     service: appserver
@@ -28,19 +35,19 @@ tooling:
     service: node
   install-grav:
     service: appserver
-    cmd: 
+    cmd:
       - composer create-project getgrav/grav /app/web
       - cd /app/web && bin/gpm selfupgrade -f
       - cd /app/web && bin/gpm install -y admin
       - cd /app/web && bin/gpm install -y devtools
   install-gravified:
     service: appserver
-    cmd: 
+    cmd:
       - cd /app/web/user/plugins && git clone https://github.com/james0r/gravified.git ./gravified
       - cd /app/web/user/plugins/gravified && composer install
   install-grav-theme-vite:
     service: appserver
-    cmd: 
+    cmd:
       - cd /app/web/user/themes && git clone https://github.com/james0r/grav-theme-vite.git ./grav-theme-vite
   install-grav-theme-vite-npm-deps:
     service: node
@@ -51,7 +58,7 @@ tooling:
       - cd /app/web && bin/plugin devtools new-plugin
   new-theme:
     service: appserver
-    cmd: 
+    cmd:
       - cd /app/web && bin/plugin devtools new-theme
   dev:
     service: node
@@ -61,6 +68,3 @@ tooling:
     service: node
     description: Build theme with vite
     cmd: cd /app/web/user/themes/grav-theme-vite && npm run build
-proxy:
-  appserver_nginx:
-    - lando-grav.lndo.site
